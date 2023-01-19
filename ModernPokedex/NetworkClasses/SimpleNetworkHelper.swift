@@ -37,22 +37,6 @@ class SimpleNetworkHelper {
         }.resume()
     }
     
-//    func getJokes(completion: @escaping ([JokeDTO]?) -> ()) {
-//        self.get(fromUrl: URL(string: "https://official-joke-api.appspot.com/jokes/ten")!, completion: completion)
-//    }
-//
-//    func getArticles(completion: @escaping ([ArticleDTO]?) -> ()) {
-//        self.get(fromUrl: URL(string: "https://iosfeeds.com/api/articles/")!, completion: completion)
-//    }
-//
-//    func getAppNews(completion: @escaping (AppNewsResultsDTO?) -> ()) {
-//        let decoder = JSONDecoder()
-//        decoder.dateDecodingStrategy = .iso8601
-//        decoder.keyDecodingStrategy = .convertFromSnakeCase
-//
-//        self.get(fromUrl: URL(string: "https://indiecatalog.app/api/news/")!, customDecoder: decoder, completion: completion)
-//    }
-    
     func fetchPokemon(completion: @escaping ([Pokemon]?) -> ()) {
         self.get(fromUrl: URL(string: "https://pokedex-bb36f.firebaseio.com/pokemon.json")!, completion: completion)
     }

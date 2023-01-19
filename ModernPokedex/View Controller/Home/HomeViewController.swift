@@ -44,7 +44,7 @@ class HomeViewController: UIViewController {
         configureCollectionView()
         configureUi()
         configureDatasource()
-        addData()
+//        addData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -215,12 +215,20 @@ extension HomeViewController: UICollectionViewDelegate {
         }
         
         if let pokemonImage = cell.pokemonImageView.image {
-            let pokemonTransitionManager = PokemonTransitionManager(anchorViewTag: (indexPath.item + 1) * 100)
-            let pokemonViewController = PokemonDetailViewController(pokemonImage: pokemonImage, tag: (indexPath.item + 1) * 100, backgroundColor: cell.pokemonImageView.backgroundColor ?? .clear, pokemonData: pokemonData![indexPath.item])
-            pokemonViewController.modalPresentationStyle = .custom
-            pokemonViewController.transitioningDelegate = pokemonTransitionManager
-            present(pokemonViewController, animated: true)
-            self.pokemonTransitionManager = pokemonTransitionManager
+            UIView.animate(withDuration: 0.065, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
+                collectionView.cellForItem(at: indexPath)?.transform = .init(scaleX: 0.95, y: 0.95)
+            }) { _ in
+                UIView.animate(withDuration: 0.065, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
+                    collectionView.cellForItem(at: indexPath)?.transform = .identity
+                }) { _ in
+                    let pokemonTransitionManager = PokemonTransitionManager(anchorViewTag: (indexPath.item + 1) * 100)
+                    let pokemonViewController = PokemonDetailViewController(pokemonImage: pokemonImage, tag: (indexPath.item + 1) * 100, backgroundColor: cell.pokemonImageView.backgroundColor ?? .clear, pokemonData: self.pokemonData![indexPath.item])
+                    pokemonViewController.modalPresentationStyle = .custom
+                    pokemonViewController.transitioningDelegate = pokemonTransitionManager
+                    self.present(pokemonViewController, animated: true)
+                    self.pokemonTransitionManager = pokemonTransitionManager
+                }
+            }
         }
     }
     
