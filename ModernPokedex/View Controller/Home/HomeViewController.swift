@@ -44,7 +44,7 @@ class HomeViewController: UIViewController {
         configureCollectionView()
         configureUi()
         configureDatasource()
-//        addData()
+        addData()
     }
     
     override func viewDidLayoutSubviews() {
