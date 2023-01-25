@@ -133,7 +133,7 @@ extension HomeViewController {
         
         if let data = pokemonData {
             for pokemonIndex in loadedCount..<data.count {
-                if pokemonIndex == loadedCount + 10 {
+                if pokemonIndex == loadedCount + 16 {
                     break
                 }
                 let pokemonAtIndex = (pokemonData?[pokemonIndex])!
