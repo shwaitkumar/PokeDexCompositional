@@ -23,12 +23,6 @@ class PokemonLargeCardCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    var image: URL? {
-        didSet {
-            configure()
-        }
-    }
-    
     var name: String? {
         didSet {
             configure()
@@ -38,6 +32,22 @@ class PokemonLargeCardCollectionViewCell: UICollectionViewCell {
     var type: String? {
         didSet {
             configure()
+        }
+    }
+    
+    func setImage(with url: URL) {
+        let resource = ImageResource(downloadURL: url, cacheKey: url.lastPathComponent)
+        pokemonImageView.kf.setImage(with: resource, placeholder: nil, options: [
+            .downloadPriority(1.0),
+            .transition(.fade(0.2)),
+            .cacheOriginalImage
+        ], progressBlock: nil) { (result) in
+            switch result {
+            case .success(_): break
+                // Success case
+            case .failure(_): break
+                // Failed case
+            }
         }
     }
 
@@ -124,7 +134,6 @@ extension PokemonLargeCardCollectionViewCell {
         pokemonImageView.clipsToBounds = true
         pokemonImageView.contentMode = .scaleAspectFit
         pokemonImageView.layer.cornerRadius = 4
-        pokemonImageView.kf.setImage(with: image, options: [.cacheOriginalImage])
         container.addSubview(pokemonImageView)
         
         pokemonIdLabel.translatesAutoresizingMaskIntoConstraints = false

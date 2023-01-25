@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class HomeViewController: UIViewController {
     typealias Datasource = UICollectionViewDiffableDataSource<Section, Item>
@@ -36,9 +37,14 @@ class HomeViewController: UIViewController {
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        
         indicator.hidesWhenStopped = true
-        
+        return indicator
+    }()
+    
+    private lazy var bottomLoadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
         return indicator
     }()
     
@@ -97,21 +103,51 @@ class HomeViewController: UIViewController {
 
 // MARK: - Add Data
 extension HomeViewController {
+    // Hit Api and add date to pokemonData
     func addData() {
-        self.loadingIndicator.startAnimating()
+        loadingIndicator.startAnimating()
         SimpleNetworkHelper.shared.fetchPokemon(completion: { (pokemon) in
             if let pokemon = pokemon {
                 self.pokemonData = pokemon
-                let maxAttack = pokemon.max { $0.attack < $1.attack }?.attack
-                debugPrint("Max attack - ", maxAttack)
-                let maxDefence = pokemon.max { $0.defense < $1.defense }?.defense
-                debugPrint("Max DEfence - ", maxDefence)
                 DispatchQueue.main.async {
                     self.loadingIndicator.stopAnimating()
-                    self.generatePokemonSnapshot(animated: true)
+                    self.loadData(isInitialLoad: true) // first time hide loader at bottom
                 }
             }
         })
+    }
+    
+    // Create Snapshot of 10 items and add to datasource
+    func loadData(isInitialLoad: Bool = false) {
+        guard datasource.snapshot().numberOfItems < pokemonData!.count else { return }
+        guard !loadingInProgress else { return }
+        loadingInProgress = true
+        if isInitialLoad == false {
+            bottomLoadingIndicator.startAnimating()
+        }
+        
+        var snapshot = datasource.snapshot()
+        if snapshot.numberOfSections == 0 {
+            snapshot.appendSections([.pokemonList])
+        }
+        
+        if let data = pokemonData {
+            for pokemonIndex in loadedCount..<data.count {
+                if pokemonIndex == loadedCount + 10 {
+                    break
+                }
+                let pokemonAtIndex = (pokemonData?[pokemonIndex])!
+                snapshot.appendItems([Item.pokemon(pokemonAtIndex)], toSection: .pokemonList)
+            }
+        }
+        
+        let loadTime: TimeInterval = isInitialLoad ? 0 : 1.4
+        DispatchQueue.main.asyncAfter(deadline: .now() + loadTime) {
+            self.datasource.apply(snapshot, animatingDifferences: true)
+            self.loadedCount = snapshot.numberOfItems
+            self.loadingInProgress = false
+            self.bottomLoadingIndicator.stopAnimating()
+        }
     }
 }
 
@@ -120,11 +156,16 @@ extension HomeViewController {
     private func setupLoadingIndicator() {
         let layoutGuide = view.safeAreaLayoutGuide
         view.addSubview(loadingIndicator)
+        view.addSubview(bottomLoadingIndicator)
         
         // Show loading indiactor at start in the middle
         NSLayoutConstraint.activate([
             layoutGuide.centerXAnchor.constraint(equalTo: loadingIndicator.centerXAnchor),
-            layoutGuide.centerYAnchor.constraint(equalTo: loadingIndicator.centerYAnchor)
+            layoutGuide.centerYAnchor.constraint(equalTo: loadingIndicator.centerYAnchor),
+            
+            // Bottom Loading Indicator
+            layoutGuide.centerXAnchor.constraint(equalTo: bottomLoadingIndicator.centerXAnchor),
+            layoutGuide.bottomAnchor.constraint(equalTo: bottomLoadingIndicator.bottomAnchor, constant: 10)
         ])
     }
 }
@@ -134,8 +175,8 @@ extension HomeViewController {
     private func configureCollectionView() {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: generateLayout())
         
-        collectionView.contentInset = UIEdgeInsets(top: view.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.33 : 0.36), left: 0, bottom: 0, right: 0)
-        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: view.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.33 : 0.36), left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: (view.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.33 : 0.36)) + 50, left: 0, bottom: 50, right: 0)
+        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: (view.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.33 : 0.36)) + 50, left: 0, bottom: 0, right: 0)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         view.addSubview(collectionView)
@@ -149,6 +190,7 @@ extension HomeViewController {
         
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.delegate = self
+        collectionView.prefetchDataSource = self
         
         // Cells
         collectionView.register(PokemonLargeCardCollectionViewCell.self, forCellWithReuseIdentifier: PokemonLargeCardCollectionViewCell.reuseIdentifer)
@@ -208,7 +250,7 @@ extension HomeViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokemonLargeCardCollectionViewCell.reuseIdentifer, for: indexPath) as? PokemonLargeCardCollectionViewCell else { fatalError("Could not create new cell") }
 
             cell.pokemonIndex = data.id
-            cell.image = data.imageUrl
+            cell.setImage(with: data.imageUrl)
             cell.name = data.name
             cell.type = data.type
             
@@ -234,7 +276,7 @@ extension HomeViewController {
 }
 
 // MARK: - Collection View Delegate
-extension HomeViewController: UICollectionViewDelegate {
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
@@ -270,6 +312,24 @@ extension HomeViewController: UICollectionViewDelegate {
         UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseIn) {
             collectionView.cellForItem(at: indexPath)?.transform = .identity
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard loadedCount != 0 else { return }
+        
+        // displaying last item
+        if indexPath.row == loadedCount - 1 {
+            loadData()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        var pokemonImagesArray = [URL]()
+        for indexPath in indexPaths {
+            guard let url = pokemonData?[indexPath.item].imageUrl else { return }
+            pokemonImagesArray.append(url)
+        }
+        ImagePrefetcher(urls: pokemonImagesArray, options: [.downloadPriority(0.9), .cacheOriginalImage]).start()
     }
 }
 
