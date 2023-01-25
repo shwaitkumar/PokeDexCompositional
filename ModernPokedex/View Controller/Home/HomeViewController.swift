@@ -175,8 +175,8 @@ extension HomeViewController {
     private func configureCollectionView() {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: generateLayout())
         
-        collectionView.contentInset = UIEdgeInsets(top: (view.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.33 : 0.36)) + 50, left: 0, bottom: 50, right: 0)
-        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: (view.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.33 : 0.36)) + 50, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: (view.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.4 : 0.33)), left: 0, bottom: 50, right: 0)
+        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: (view.bounds.width * (traitCollection.horizontalSizeClass == .compact ? 0.4 : 0.33)), left: 0, bottom: 0, right: 0)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         view.addSubview(collectionView)
