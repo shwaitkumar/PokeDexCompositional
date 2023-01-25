@@ -30,6 +30,18 @@ class HomeViewController: UIViewController {
     
     private var pokemonTransitionManager: PokemonTransitionManager?
     
+    // Loading Indicator
+    private var loadedCount = 0
+    private var loadingInProgress = false
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        indicator.hidesWhenStopped = true
+        
+        return indicator
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -40,7 +52,7 @@ class HomeViewController: UIViewController {
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         gradientLayer.frame = view.bounds
         view.layer.insertSublayer(gradientLayer, at: 0)
-        
+        setupLoadingIndicator()
         configureCollectionView()
         configureUi()
         configureDatasource()
@@ -86,6 +98,7 @@ class HomeViewController: UIViewController {
 // MARK: - Add Data
 extension HomeViewController {
     func addData() {
+        self.loadingIndicator.startAnimating()
         SimpleNetworkHelper.shared.fetchPokemon(completion: { (pokemon) in
             if let pokemon = pokemon {
                 self.pokemonData = pokemon
@@ -94,10 +107,25 @@ extension HomeViewController {
                 let maxDefence = pokemon.max { $0.defense < $1.defense }?.defense
                 debugPrint("Max DEfence - ", maxDefence)
                 DispatchQueue.main.async {
+                    self.loadingIndicator.stopAnimating()
                     self.generatePokemonSnapshot(animated: true)
                 }
             }
         })
+    }
+}
+
+// MARK: - Setup Loading Indicator
+extension HomeViewController {
+    private func setupLoadingIndicator() {
+        let layoutGuide = view.safeAreaLayoutGuide
+        view.addSubview(loadingIndicator)
+        
+        // Show loading indiactor at start in the middle
+        NSLayoutConstraint.activate([
+            layoutGuide.centerXAnchor.constraint(equalTo: loadingIndicator.centerXAnchor),
+            layoutGuide.centerYAnchor.constraint(equalTo: loadingIndicator.centerYAnchor)
+        ])
     }
 }
 
