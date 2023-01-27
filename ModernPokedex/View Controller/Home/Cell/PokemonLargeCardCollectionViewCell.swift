@@ -167,7 +167,7 @@ extension PokemonLargeCardCollectionViewCell {
             stackView.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -5),
             stackView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -5),
             stackView.heightAnchor.constraint(equalToConstant: 38.5),
-
+            
             pokemonImageView.topAnchor.constraint(equalTo: container.topAnchor, constant: 5),
             pokemonImageView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 5),
             pokemonImageView.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -5),

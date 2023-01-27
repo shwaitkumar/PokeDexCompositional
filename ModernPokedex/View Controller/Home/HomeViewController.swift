@@ -31,9 +31,6 @@ class HomeViewController: UIViewController {
     
     private var pokemonTransitionManager: PokemonTransitionManager?
     
-    // Loading Indicator
-    private var loadedCount = 0
-    private var loadingInProgress = false
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.translatesAutoresizingMaskIntoConstraints = false
@@ -41,6 +38,8 @@ class HomeViewController: UIViewController {
         return indicator
     }()
     
+    private var loadedCount = 0
+    private var loadingInProgress = false
     private lazy var bottomLoadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.translatesAutoresizingMaskIntoConstraints = false
@@ -261,17 +260,17 @@ extension HomeViewController {
         }
     }
     
-    private func generatePokemonSnapshot(animated: Bool) {
-        var snapshot = Snapshot()
-        
-        snapshot.appendSections([.pokemonList])
-        
-        if let pokemon = self.pokemonData {
-            snapshot.appendItems(pokemon.map(Item.pokemon), toSection: .pokemonList)
-        }
-        
-        datasource.apply(snapshot, animatingDifferences: animated)
-    }
+//    private func generatePokemonSnapshot(animated: Bool) {
+//        var snapshot = Snapshot()
+//        
+//        snapshot.appendSections([.pokemonList])
+//        
+//        if let pokemon = self.pokemonData {
+//            snapshot.appendItems(pokemon.map(Item.pokemon), toSection: .pokemonList)
+//        }
+//        
+//        datasource.apply(snapshot, animatingDifferences: animated)
+//    }
 
 }
 
