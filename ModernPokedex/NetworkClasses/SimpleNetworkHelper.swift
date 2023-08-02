@@ -7,38 +7,33 @@
 
 import Foundation
 
+enum DataError: Error {
+    case invalidResponse
+    case invalidUrl
+    case invalidData
+    case network(Error?)
+}
+
 class SimpleNetworkHelper {
     static let shared = SimpleNetworkHelper()
+    static let baseUrl = "https://pokedex-bb36f.firebaseio.com/pokemon.json"
     
-    func get<T: Decodable>(fromUrl url: URL, customDecoder: JSONDecoder? = nil, completion: @escaping (T?) -> ()) {
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print(error)
-                completion(nil)
-                return
-            }
-            
-            guard let data = data?.parseData(removeString: "null,") else {
-                assertionFailure("No error but also no data?!")
-                completion(nil)
-                return
-            }
-            
-            let decoder = customDecoder ?? JSONDecoder()
-            
-            do {
-                let decoded = try decoder.decode(T.self, from: data)
-                completion(decoded)
-            } catch {
-                completion(nil)
-                print(error)
-            }
-            
-        }.resume()
-    }
-    
-    func fetchPokemon(completion: @escaping ([Pokemon]?) -> ()) {
-        self.get(fromUrl: URL(string: "https://pokedex-bb36f.firebaseio.com/pokemon.json")!, completion: completion)
+    func get<T: Decodable>(fromUrl urlString: String, customDecoder: JSONDecoder? = nil) async throws -> T {
+        guard let url = URL(string: urlString) else {
+            throw DataError.invalidUrl
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            throw DataError.invalidResponse
+        }
+        
+        guard let data = data.parseData(removeString: "null,") else {
+            throw DataError.invalidData
+        }
+        
+        return try JSONDecoder().decode(T.self, from: data)
     }
 }
 

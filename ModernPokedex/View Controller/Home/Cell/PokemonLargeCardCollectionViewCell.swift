@@ -36,8 +36,8 @@ class PokemonLargeCardCollectionViewCell: UICollectionViewCell {
     }
     
     func setImage(with url: URL) {
-        let resource = ImageResource(downloadURL: url, cacheKey: url.lastPathComponent)
-        pokemonImageView.kf.setImage(with: resource, placeholder: nil, options: [
+//        let resource = ImageResource(downloadURL: url, cacheKey: url.lastPathComponent)
+        pokemonImageView.kf.setImage(with: url, placeholder: nil, options: [
             .downloadPriority(1.0),
             .transition(.fade(0.2)),
             .cacheOriginalImage

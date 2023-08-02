@@ -61,7 +61,7 @@ class HomeViewController: UIViewController {
         configureCollectionView()
         configureUi()
         configureDatasource()
-        addData()
+        fetchPokemon()
     }
     
     override func viewDidLayoutSubviews() {
@@ -103,17 +103,20 @@ class HomeViewController: UIViewController {
 // MARK: - Add Data
 extension HomeViewController {
     // Hit Api and add date to pokemonData
-    func addData() {
+    @MainActor func fetchPokemon() {
         loadingIndicator.startAnimating()
-        SimpleNetworkHelper.shared.fetchPokemon(completion: { (pokemon) in
-            if let pokemon = pokemon {
+        Task {
+            do {
+                let pokemon: [Pokemon] = try await SimpleNetworkHelper.shared.get(fromUrl: SimpleNetworkHelper.baseUrl)
                 self.pokemonData = pokemon
-                DispatchQueue.main.async {
-                    self.loadingIndicator.stopAnimating()
-                    self.loadData(isInitialLoad: true) // first time hide loader at bottom
-                }
+                self.loadingIndicator.stopAnimating()
+                self.loadData(isInitialLoad: true) // first time hide loader at bottom
             }
-        })
+            catch {
+                self.loadingIndicator.stopAnimating()
+                dump(error)
+            }
+        }
     }
     
     // Create Snapshot of 10 items and add to datasource
@@ -214,20 +217,19 @@ extension HomeViewController {
     
     private func generatePokemonList(isWide: Bool) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1.0),
-          heightDimension: .fractionalHeight(1.0))
+            widthDimension: .fractionalWidth(isWide ? 1/4 : 1/2),
+            heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
 
         let groupHeight = NSCollectionLayoutDimension.fractionalWidth(isWide ? 0.33 : 0.66)
         let groupSize = NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1.0),
-          heightDimension: groupHeight)
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: isWide ? 4 : 2)
-        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(5)
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: groupHeight)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 5)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 11, bottom: 0, trailing: 11)
 
         return section
     }
@@ -259,18 +261,6 @@ extension HomeViewController {
             return cell
         }
     }
-    
-//    private func generatePokemonSnapshot(animated: Bool) {
-//        var snapshot = Snapshot()
-//        
-//        snapshot.appendSections([.pokemonList])
-//        
-//        if let pokemon = self.pokemonData {
-//            snapshot.appendItems(pokemon.map(Item.pokemon), toSection: .pokemonList)
-//        }
-//        
-//        datasource.apply(snapshot, animatingDifferences: animated)
-//    }
 
 }
 
