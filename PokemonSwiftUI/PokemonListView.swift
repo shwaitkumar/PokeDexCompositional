@@ -9,8 +9,12 @@ import SwiftUI
 
 struct PokemonListView: View {
     @State private var isAnimating: Bool = false
-    @State private var pokemon: [Pokemon] = []
+    
     @Namespace private var namespace
+    
+    @State var isInitialLoad: Bool = false
+    
+    let pokemon: [Pokemon]
     
     var body: some View {
         GeometryReader { geometry in
@@ -21,7 +25,7 @@ struct PokemonListView: View {
                         .scaledToFit()
                         .frame(width: geometry.size.width * (UITraitCollection.current.horizontalSizeClass == .regular ? 0.2 : 0.3), height: geometry.size.width * (UITraitCollection.current.horizontalSizeClass == .regular ? 0.1 : 0.15))
                         .offset(y: isAnimating ? .zero : geometry.frame(in: .local).midY - 20)
-                        .animation(.easeInOut(duration: 0.8).delay(0.3), value: isAnimating)
+                        .animation(.spring(duration: 0.8), value: isAnimating)
                     
                     ScrollView {
                         LazyVGrid(columns: UITraitCollection.current.horizontalSizeClass == .regular ? [GridItem(), GridItem(), GridItem(), GridItem()] : [GridItem(), GridItem()]) {
@@ -62,6 +66,8 @@ struct PokemonListView: View {
                         } //: LAZYVGRID
                         .scrollTargetLayout()
                         .padding(.horizontal)
+                        .opacity(isAnimating ? 1: 0)
+                        .animation(.easeInOut(duration: 0.5).delay(0.3), value: isAnimating)
                     } //: SCROLLVIEW
                     .scrollTargetBehavior(.viewAligned)
                 } //: VSTACK
@@ -69,14 +75,9 @@ struct PokemonListView: View {
                     LinearGradient(colors: [.seafoamMist, .jadeForest], startPoint: .topLeading, endPoint: .bottomTrailing)
                 )
                 .onAppear {
-                    isAnimating.toggle()
-                }
-                .task { @MainActor in
-                    do {
-                        pokemon = try await NetworkManager.shared.fetchPokemon()
-                    }
-                    catch {
-                        print(error.localizedDescription)
+                    if isInitialLoad {
+                        isInitialLoad.toggle()
+                        isAnimating.toggle()
                     }
                 }
             } //: NAVIGATION STACK
@@ -85,5 +86,5 @@ struct PokemonListView: View {
 }
 
 #Preview {
-    PokemonListView()
+    PokemonListView(pokemon: [])
 }
