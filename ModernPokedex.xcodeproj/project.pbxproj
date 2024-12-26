@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -38,9 +38,14 @@
 		666CA19D29796974007D870A /* PokemonTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokemonTransitionManager.swift; sourceTree = "<group>"; };
 		666CA1A12979847B007D870A /* PokemonDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailViewController.swift; sourceTree = "<group>"; };
 		666CA1A32979A83E007D870A /* StretchyHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StretchyHeaderView.swift; sourceTree = "<group>"; };
+		66877E972D1DCC2900705EC6 /* PokemonSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokemonSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9683583EB8B2F5ECB11F05E2 /* Pods_ModernPokedex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ModernPokedex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C81E549CDA8EF4DA8705F1E5 /* Pods-ModernPokedex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ModernPokedex.debug.xcconfig"; path = "Target Support Files/Pods-ModernPokedex/Pods-ModernPokedex.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		66877E982D1DCC2900705EC6 /* PokemonSwiftUI */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PokemonSwiftUI; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6627805A297835C800E810F7 /* Frameworks */ = {
@@ -51,6 +56,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		66877E942D1DCC2900705EC6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -58,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				6627805F297835C800E810F7 /* ModernPokedex */,
+				66877E982D1DCC2900705EC6 /* PokemonSwiftUI */,
 				6627805E297835C800E810F7 /* Products */,
 				EA16398DF563BBB3DF8B977E /* Pods */,
 				9EE35E19A0E327ACFD115EC1 /* Frameworks */,
@@ -68,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				6627805D297835C800E810F7 /* ModernPokedex.app */,
+				66877E972D1DCC2900705EC6 /* PokemonSwiftUI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -195,6 +209,28 @@
 			productReference = 6627805D297835C800E810F7 /* ModernPokedex.app */;
 			productType = "com.apple.product-type.application";
 		};
+		66877E962D1DCC2900705EC6 /* PokemonSwiftUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 66877EA42D1DCC2B00705EC6 /* Build configuration list for PBXNativeTarget "PokemonSwiftUI" */;
+			buildPhases = (
+				66877E932D1DCC2900705EC6 /* Sources */,
+				66877E942D1DCC2900705EC6 /* Frameworks */,
+				66877E952D1DCC2900705EC6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				66877E982D1DCC2900705EC6 /* PokemonSwiftUI */,
+			);
+			name = PokemonSwiftUI;
+			packageProductDependencies = (
+			);
+			productName = PokemonSwiftUI;
+			productReference = 66877E972D1DCC2900705EC6 /* PokemonSwiftUI.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -202,11 +238,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1420;
+				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					6627805C297835C800E810F7 = {
 						CreatedOnToolsVersion = 14.2;
+					};
+					66877E962D1DCC2900705EC6 = {
+						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
@@ -224,6 +263,7 @@
 			projectRoot = "";
 			targets = (
 				6627805C297835C800E810F7 /* ModernPokedex */,
+				66877E962D1DCC2900705EC6 /* PokemonSwiftUI */,
 			);
 		};
 /* End PBXProject section */
@@ -235,6 +275,13 @@
 			files = (
 				6627806D297835C900E810F7 /* LaunchScreen.storyboard in Resources */,
 				6627806A297835C900E810F7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66877E952D1DCC2900705EC6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +344,13 @@
 				6627807F297862A100E810F7 /* PokemonLargeCardCollectionViewCell.swift in Sources */,
 				666CA1A22979847B007D870A /* PokemonDetailViewController.swift in Sources */,
 				6627807D29785A7900E810F7 /* Pokemon.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66877E932D1DCC2900705EC6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,6 +540,73 @@
 			};
 			name = Release;
 		};
+		66877EA22D1DCC2B00705EC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PokemonSwiftUI/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shwaitkumar.PokemonSwiftUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		66877EA32D1DCC2B00705EC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PokemonSwiftUI/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shwaitkumar.PokemonSwiftUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -503,6 +624,15 @@
 			buildConfigurations = (
 				66278072297835C900E810F7 /* Debug */,
 				66278073297835C900E810F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		66877EA42D1DCC2B00705EC6 /* Build configuration list for PBXNativeTarget "PokemonSwiftUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66877EA22D1DCC2B00705EC6 /* Debug */,
+				66877EA32D1DCC2B00705EC6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
