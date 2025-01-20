@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "66877E0C2D17520D00705EC6"
+               BlueprintIdentifier = "66877E962D1DCC2900705EC6"
                BuildableName = "PokemonSwiftUI.app"
                BlueprintName = "PokemonSwiftUI"
                ReferencedContainer = "container:ModernPokedex.xcodeproj">
@@ -44,7 +44,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "66877E0C2D17520D00705EC6"
+            BlueprintIdentifier = "66877E962D1DCC2900705EC6"
             BuildableName = "PokemonSwiftUI.app"
             BlueprintName = "PokemonSwiftUI"
             ReferencedContainer = "container:ModernPokedex.xcodeproj">
@@ -61,7 +61,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "66877E0C2D17520D00705EC6"
+            BlueprintIdentifier = "66877E962D1DCC2900705EC6"
             BuildableName = "PokemonSwiftUI.app"
             BlueprintName = "PokemonSwiftUI"
             ReferencedContainer = "container:ModernPokedex.xcodeproj">
