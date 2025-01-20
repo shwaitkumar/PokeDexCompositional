@@ -10,6 +10,9 @@ The latest version of the app is built using SwiftUI, focusing on modern animati
 - Fully interactive and visually appealing UI.
 - To try this version, switch to the **version2** branch and use the **PokemonSwiftUI** target after cloning.
 
+## Demo
+![ScreenRecording2025-01-20at12 22 43-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/be2f38d8-5ca1-4516-ad51-fdfb494485e2)
+
 ## Version 1 (UIKit)
 
 The original version of the app is built using UIKit, leveraging CollectionView compositional layouts.
@@ -19,3 +22,6 @@ The original version of the app is built using UIKit, leveraging CollectionView 
 - Custom animations for highlighting/unhighlighting cells.
 - Custom transition manager for showing and dismissing Pokémon details.
 - Sequential animations to load Pokémon details interactively.
+
+## Demo
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/25391160/214637836-5627834d-3263-47ca-8927-697da587bd39.gif)
