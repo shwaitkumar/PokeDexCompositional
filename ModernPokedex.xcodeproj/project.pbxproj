@@ -202,7 +202,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1420;
+				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					6627805C297835C800E810F7 = {
